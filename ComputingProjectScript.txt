@@ -1,0 +1,11 @@
+When the program starts, it sets up the LEDs, sets up the USER button, and configures SysTick so it generates an interrupt every 1 millisecond.
+
+After that, the game begins by turning on the first LED. From there, SysTick keeps the timing going in the background by reducing a countdown value every millisecond. While that LED is active, the player has to press the USER button before the countdown reaches zero.
+
+When the button is pressed, the button interrupt runs and checks whether the press happened at the correct time. If it did, the program treats that as a success. It turns off the current LED, moves on to the next level, reduces the allowed reaction time, and then waits briefly before turning on the next LED.
+
+That short wait between LEDs is also timed using the same countdown system, so the game can control both the reaction window and the transition between rounds. Once the delay ends, the next LED is turned on and the player has to react again.
+
+If the countdown reaches zero before the player presses the button, the program treats that as a failure and flashes the failure LEDs. If the player gets all the way through the levels, it flashes a success pattern instead. After either the win or loss sequence finishes, the program resets the values and starts again from the beginning.
+
+So overall, the code is using direct register access to control the LEDs, SysTick to handle all the timing, and the external interrupt on the button to react immediately when the player presses it.
